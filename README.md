@@ -1,23 +1,14 @@
-# Cohorts of Songs
-
-## Project Overview
-
-In today's digital landscape, personalized experiences are a key driver of user engagement. Whether it's on an e-commerce platform or a music streaming service like **Spotify**, users expect content recommendations tailored to their preferences.
-
-This project aims to perform **unsupervised learning (clustering)** on Spotify song data to group similar songs into **cohorts** based on their acoustic and musical features. These clusters can be used to improve music recommendation engines by suggesting songs that belong to the same cohort a user prefers.
-
----
+# Home Loan Data Analysis
 
 ## Problem Statement
 
-Spotify, a leading audio streaming platform with over **456 million monthly users**, wants to **enhance its recommendation engine** by identifying natural groupings of songs. 
+For a safe and secure lending experience, it's important to analyze past loan data. In this project, we build a deep learning model that predicts whether or not a loan applicant is likely to default, using historical financial data. 
 
 **Objective:**  
-As a data scientist, your goal is to:
-- Perform **Exploratory Data Analysis (EDA)**
-- Apply **K-Means Clustering**
-- Use **PCA for Visualization**
-- Derive insights about different song cohorts
+Create a deep learning model to predict loan repayment probability using historical borrower data.
+
+**Domain:** 
+Finance — Credit Risk Modeling
 
 ---
 
@@ -25,19 +16,18 @@ As a data scientist, your goal is to:
 
 The dataset contains various features describing audio characteristics of songs. Some key features include:
 
-- `danceability`: How suitable a track is for dancing.
-- `energy`: Intensity and activity level of the track.
-- `tempo`: The overall tempo in BPM (beats per minute).
-- `loudness`, `speechiness`, `valence`, `instrumentalness`, `acousticness`, etc.
+- `credit.policy`: Customer meets company credit underwriting criteria or not.
+- `purpose`: Reason for loan.
+- `int.rate`: Interest rate as a proportion .
+- `installment`, `log.annual.inc`, `dti`, `fico`, `days.with.cr.line`, etc.
 
-> A full **Dataset Dictionary** is provided in the [`data/`](./data/) folder as an Excel file:  
-> [`dataset_dictionary.xlsx`](./data/dataset_dictionary.xlsx)
+> A full **Dataset Dictionary** is provided in the [`data/`](./data/) folder as an Word file: [`dataset_dictionary.docx`](./data/dataset_dictionary.docs)
 
 ---
 
 ## Technologies & Tools Used
 
-- Python 3.x
+- Python
 - Jupyter Notebook
 - Pandas, NumPy
 - Matplotlib, Seaborn (for visualization)
@@ -47,37 +37,50 @@ The dataset contains various features describing audio characteristics of songs.
 
 ## Methodology
 
-1. **Data Cleaning**
-   - Removed irrelevant columns
-   - Handled null/missing values
-   - Scaled features using MinMaxScaler
+1. **Data Loading**
+   - Loaded the loan dataset using pandas
 
-2. **EDA (Exploratory Data Analysis)**
-   - Visualized feature distributions
-   - Correlation heatmaps
-   - Pairplots of key audio features
+2. **Exploratory Data Analysis**
+   - Inspected missing values and duplicate rows
+   - Examined imbalance in the target column (not.fully.paid)
 
-3. **Dimensionality Reduction**
-   - Applied **PCA** to reduce to 2D space
-   - Visualized clusters with scatter plots
+3. **Data Preprocessing**
+   - One-hot encoding for categorical variables
+   - SMOTE for handling class imbalance
 
-4. **Clustering**
-   - Applied **K-Means** clustering algorithm
-   - Used **Elbow Method** to identify optimal `k`
-   - Evaluated clustering performance visually
+4. **Model Development**
+   - Built a deep learning model using TensorFlow/Keras
+   - Included dropout layers and early stopping to reduce overfitting
 
-5. **Result Interpretation**
-   - Analyzed characteristics of each cluster
-   - Identified potential patterns in tempo, energy, and valence across cohorts
+5. **Model Evaluation**
+   - Metrics used:
+      - Accuracy
+      - Sensitivity (Recall)
+      - ROC AUC Score
+   - Plotted ROC Curve
 
 ---
 
-## Key Results
+## Model Architecture (Keras)
 
-- Optimal clusters: **(e.g., k=4 based on elbow curve)**  
-- Clusters clearly segregated based on energy, tempo, and valence
-- Songs with similar danceability and energy naturally grouped together
-- PCA visualization helped validate meaningful clustering
+```
+Sequential([
+    Dense(128, activation='relu'),
+    Dropout(0.3),
+    Dense(64, activation='relu'),
+    Dropout(0.2),
+    Dense(32, activation='relu'),
+    Dense(1, activation='sigmoid')
+])
+
+```
+
+---
+
+## Performance Metrics
+- Recall (Sensitivity): ~High to avoid false negatives
+- ROC AUC: Used for better evaluation under imbalance
+- Accuracy: Measured but not relied on solely
 
 ---
 
@@ -87,37 +90,33 @@ The dataset contains various features describing audio characteristics of songs.
 - Python 3.8+
 - Jupyter Notebook
 - pandas, numpy, seaborn, matplotlib
-- Scikit-learn (for clustering and PCA)
+- Scikit-learn
+- TensorFlow / Keras
+- Imbalanced-learn (SMOTE)
 
 ### Run the notebook
-> git clone https://github.com/avesh-srivastava/ml-unsupervised-song-clustering.git
-> cd ml-unsupervised-song-clustering
+> git clone https://github.com/avesh-srivastava/dl-home-loan-data-analysis.git
+> cd dl-home-loan-data-analysis
 > pip install -r requirements.txt
-> jupyter notebook notebooks/Cohorts_of_Songs.ipynb
+> jupyter notebook notebooks/Home_Loan_Data_Analysis.ipynb
 
 ---
 
 ## Folder Structure
 
 ```
-ml-unsupervised-song-clustering/
+dl-home-loan-data-analysis/
 ├── data/
-│ └── dataset_dictionary.xlsx
-│ └── rolling_stones_spotify.csv
+│ └── dataset_dictionary.docx
+│ └── home_loan_data.csv
 ├── notebooks/
-│ └──Cohorts_of_Songs.ipynb
+│ └──Home_Loan_Data_Analysis.ipynb
+├── outputs/
+│ └──Home_Loan_Data_Analysis.html
 ├── README.md
-└── requirements.txt (optional)
+└── requirements.txt
 
 ```
-
----
-
-## Future Improvements
-
-- Try DBSCAN or Hierarchical Clustering for more dynamic cohort discovery
-- Integrate with Spotify API for real-time recommendations
-- Use t-SNE or UMAP for more granular cluster visualization
 
 --- 
 
