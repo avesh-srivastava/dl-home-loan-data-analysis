@@ -1,0 +1,17 @@
+# Core Python libraries
+numpy
+pandas
+
+# Visualization
+matplotlib
+seaborn
+
+# Machine Learning & Evaluation
+scikit-learn
+imbalanced-learn
+
+# Deep Learning
+tensorflow
+
+# Jupyter Notebook
+notebook
